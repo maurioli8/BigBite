@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BigBite Cookies — Cañuelas</title>
+  <meta name="description" content="Cookies estilo Nueva York en Cañuelas. Gorditas, rellenas, hechas a mano. Tan grandes como tus ganas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0e0e0e;
+      --white: #f8f5f0;
+      --accent: #c8401a;
+      --accent-light: #f0e8e2;
+      --gray: #b0aba4;
+      --gray-light: #e8e4de;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.06); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: .04em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 400;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .6;
+      transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--accent);
+      color: var(--white) !important;
+      opacity: 1 !important;
+      padding: .5rem 1.25rem;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: #a8340f; }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--black);
+      transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 65px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      padding: 1.5rem 2.5rem 2rem;
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+    .mobile-menu a.mobile-cta {
+      background: var(--accent);
+      color: var(--white);
+      opacity: 1;
+      padding: .75rem 1.25rem;
+      text-align: center;
+      border-radius: 2px;
+      margin-top: .5rem;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 65px;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 3rem 5rem 2.5rem;
+      border-right: 1px solid var(--gray-light);
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: .95;
+      letter-spacing: .02em;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--black);
+      opacity: .6;
+      max-width: 380px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .85rem 2rem;
+      border-radius: 2px;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { background: var(--accent); color: var(--white); }
+    .btn-primary:hover { background: #a8340f; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
+      border: 1px solid var(--black);
+    }
+    .btn-outline:hover { background: var(--black); color: var(--white); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--accent-light);
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .cookie-icon {
+      font-size: clamp(5rem, 12vw, 9rem);
+      line-height: 1;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-badge {
+      background: var(--white);
+      border: 1px solid var(--gray-light);
+      border-radius: 2px;
+      padding: .6rem 1.25rem;
+      font-size: .8rem;
+      font-weight: 400;
+      color: var(--black);
+      opacity: .8;
+      letter-spacing: .06em;
+    }
+    .hero-stats {
+      position: absolute;
+      bottom: 2rem;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--black);
+      display: block;
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--black);
+      opacity: .5;
+      margin-top: .25rem;
+      display: block;
+    }
+
+    /* SECTIONS COMMON */
+    section { padding: 6rem 2.5rem; }
+    .section-tag {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--black);
+      opacity: .55;
+      line-height: 1.7;
+      max-width: 500px;
+    }
+
+    /* MENU */
+    #menu { background: var(--white); border-top: 1px solid var(--gray-light); }
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .flavors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5px;
+      background: var(--gray-light);
+      border: 1.5px solid var(--gray-light);
+    }
+    .flavor-card {
+      background: var(--white);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      transition: background .2s;
+      cursor: default;
+    }
+    .flavor-card:hover { background: var(--accent-light); }
+    .flavor-icon { font-size: 2.25rem; line-height: 1; }
+    .flavor-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: .03em;
+      color: var(--black);
+      line-height: 1.1;
+    }
+    .flavor-desc {
+      font-size: .88rem;
+      font-weight: 300;
+      color: var(--black);
+      opacity: .55;
+      line-height: 1.6;
+    }
+    .flavor-tag {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .3rem .75rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 1px;
+      color: var(--black);
+      opacity: .5;
+      align-self: flex-start;
+    }
+    .flavor-tag.hot {
+      border-color: var(--accent);
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    /* FUNDADORES */
+    #fundadores {
+      background: var(--black);
+      color: var(--white);
+      border-top: none;
+    }
+    #fundadores .section-title { color: var(--white); }
+    #fundadores .section-sub { color: var(--white); opacity: .45; }
+    #fundadores .section-tag { color: #c87d5a; }
+
+    .founder-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 3.5rem;
+      align-items: start;
+    }
+    .benefits-list { display: flex; flex-direction: column; gap: 0; }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .benefit-item:first-child { border-top: 1px solid rgba(255,255,255,.08); }
+    .benefit-num {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--accent);
+      opacity: .8;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .benefit-text h3 {
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: .25rem;
+    }
+    .benefit-text p {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--white);
+      opacity: .45;
+      line-height: 1.6;
+    }
+
+    .founder-form-box {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 2px;
+      padding: 2.5rem 2rem;
+    }
+    .form-box-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+    .form-box-sub {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--white);
+      opacity: .4;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .spots-bar-wrap { margin-bottom: 2rem; }
+    .spots-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: .4;
+      margin-bottom: .6rem;
+    }
+    .spots-bar {
+      height: 3px;
+      background: rgba(255,255,255,.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .spots-fill {
+      height: 100%;
+      width: 35%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+    .spots-count {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: .25rem;
+    }
+    .spots-sub {
+      font-size: .78rem;
+      font-weight: 300;
+      color: var(--white);
+      opacity: .35;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border-radius: 2px;
+      width: 100%;
+      transition: background .2s, transform .2s;
+    }
+    .wa-btn:hover { background: #1db954; transform: translateY(-2px); }
+    .wa-icon { font-size: 1.2rem; }
+
+    /* CONTACTO */
+    #contacto {
+      background: var(--white);
+      border-top: 1px solid var(--gray-light);
+    }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-block {}
+    .contact-block-label {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .4rem;
+      display: block;
+    }
+    .contact-block-val {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--black);
+      line-height: 1.6;
+    }
+    .contact-block-val a {
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-light);
+      transition: border-color .2s;
+    }
+    .contact-block-val a:hover { border-color: var(--black); }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--gray-light);
+      border: 1px solid var(--gray-light);
+      margin-top: 1rem;
+    }
+    .schedule-cell {
+      background: var(--white);
+      padding: 1.25rem 1rem;
+    }
+    .schedule-day {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--black);
+      opacity: .4;
+      margin-bottom: .3rem;
+    }
+    .schedule-action {
+      font-size: .9rem;
+      font-weight: 400;
+      color: var(--black);
+    }
+    .schedule-action.accent { color: var(--accent); font-weight: 500; }
+
+    .contact-cta-box {
+      background: var(--accent-light);
+      border: 1px solid rgba(200,64,26,.15);
+      border-radius: 2px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-cta-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1.05;
+      color: var(--black);
+    }
+    .contact-cta-sub {
+      font-size: .88rem;
+      font-weight: 300;
+      color: var(--black);
+      opacity: .55;
+      line-height: 1.7;
+    }
+    .ig-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .9rem 1.5rem;
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .ig-btn:hover { background: #2a2a2a; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 2.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: .04em;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy {
+      font-size: .75rem;
+      font-weight: 300;
+      color: var(--white);
+      opacity: .3;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { padding: 1.5rem; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 3rem 1.5rem 2.5rem; border-right: none; border-bottom: 1px solid var(--gray-light); }
+      .hero-right { min-height: 280px; padding: 2rem 1.5rem; }
+      .hero-stats { gap: 1.25rem; }
+
+      section { padding: 4rem 1.5rem; }
+
+      .menu-header { flex-direction: column; align-items: flex-start; }
+
+      .founder-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+
+      footer { flex-direction: column; align-items: flex-start; gap: .75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Big<span>Bite</span></a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#fundadores">Fundadores</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="https://wa.me/5492226487900?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20BigBite%20Cookies" target="_blank" class="nav-cta">Hacer pedido</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#menu" onclick="closeMobile()">Menú</a>
+    <a href="#fundadores" onclick="closeMobile()">Fundadores</a>
+    <a href="#contacto" onclick="closeMobile()">Contacto</a>
+    <a href="https://wa.me/5492226487900?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20BigBite%20Cookies" target="_blank" class="mobile-cta">Hacer pedido →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-left">
+      <span class="hero-tag">Cañuelas · Hecho a mano · Estilo Nueva York</span>
+      <h1 class="hero-title">
+        TAN<br>GRAN<em>DES</em><br>COMO TUS<br>GANAS.
+      </h1>
+      <p class="hero-sub">
+        Cookies gorditas, rellenas y brutales. Hechas a mano en Cañuelas, con el espíritu de Nueva York.
+      </p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">Ver menú</a>
+        <a href="#fundadores" class="btn btn-outline">Ser Fundador</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="cookie-icon">🍪</div>
+        <div class="hero-badge">BigBite Cookies — Cañuelas</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">NY</span>
+          <span class="stat-lbl">Estilo</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-lbl">Artesanal</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">20</span>
+          <span class="stat-lbl">Fundadores</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENÚ -->
+  <section id="menu">
+    <div class="menu-header reveal">
+      <div>
+        <span class="section-tag">Sabores de la semana</span>
+        <h2 class="section-title">El menú</h2>
+        <p class="section-sub">Cada semana elegimos los sabores disponibles. Los pedidos cierran los jueves a las 20hs.</p>
+      </div>
+      <a href="https://wa.me/5492226487900?text=Hola!%20Quiero%20ver%20el%20men%C3%BA%20de%20esta%20semana" target="_blank" class="btn btn-outline">Ver disponibilidad →</a>
+    </div>
+
+    <div class="flavors-grid reveal">
+      <div class="flavor-card">
+        <div class="flavor-icon">🍫</div>
+        <div class="flavor-name">Choco Lava</div>
+        <div class="flavor-desc">Cookie de chocolate negro con relleno de Nutella fundida. La que más piden.</div>
+        <span class="flavor-tag hot">Más pedida</span>
+      </div>
+      <div class="flavor-card">
+        <div class="flavor-icon">🥜</div>
+        <div class="flavor-name">DDL Bomb</div>
+        <div class="flavor-desc">Masa vainilla, relleno generoso de dulce de leche repostero con nuez tostada.</div>
+        <span class="flavor-tag">Clásica</span>
+      </div>
+      <div class="flavor-card">
+        <div class="flavor-icon">🍪</div>
+        <div class="flavor-name">Classic NY</div>
+        <div class="flavor-desc">La original. Chips de chocolate belga, masa suave, crujiente por fuera.</div>
+        <span class="flavor-tag">Original</span>
+      </div>
+      <div class="flavor-card">
+        <div class="flavor-icon">🍬</div>
+        <div class="flavor-name">Red Velvet</div>
+        <div class="flavor-desc">Masa roja aterciopelada con relleno de queso crema. Impacta antes de la primera mordida.</div>
+        <span class="flavor-tag hot">Nueva</span>
+      </div>
+      <div class="flavor-card">
+        <div class="flavor-icon">🧂</div>
+        <div class="flavor-name">Salted Caramel</div>
+        <div class="flavor-desc">Caramelo salado dentro de masa butterscotch. Dulce y salado en la misma mordida.</div>
+        <span class="flavor-tag">Especial</span>
+      </div>
+      <div class="flavor-card" style="background:var(--accent-light);">
+        <div class="flavor-icon">📦</div>
+        <div class="flavor-name">Box Regalo</div>
+        <div class="flavor-desc">Armá tu propia caja combinada. Ideal para regalos corporativos, cumpleaños y eventos.</div>
+        <span class="flavor-tag hot">Corporativo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNDADORES -->
+  <section id="fundadores">
+    <span class="section-tag reveal">Oferta de lanzamiento</span>
+    <h2 class="section-title reveal">Los 20<br>Fundadores</h2>
+    <p class="section-sub reveal">Solo los primeros 20 clientes entran al grupo fundador. No hay más lugares después.</p>
+
+    <div class="founder-layout">
+      <div class="benefits-list reveal">
+        <div class="benefit-item">
+          <span class="benefit-num">01</span>
+          <div class="benefit-text">
+            <h3>Cookie de regalo</h3>
+            <p>En su primer pedido reciben una cookie extra sin costo, elegida por nosotros.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-num">02</span>
+          <div class="benefit-text">
+            <h3>Acceso anticipado</h3>
+            <p>Cada sabor nuevo lo prueban antes que el resto. Siempre.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-num">03</span>
+          <div class="benefit-text">
+            <h3>10% de descuento permanente</h3>
+            <p>En todos sus pedidos futuros, sin vencimiento, sin condiciones.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-num">04</span>
+          <div class="benefit-text">
+            <h3>Wall of Fame</h3>
+            <p>Su nombre en nuestra historia de fundadores. Los que estuvieron desde el día 0.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-form-box reveal">
+        <div class="form-box-title">Quedan lugares disponibles</div>
+        <div class="form-box-sub">Escribinos por WhatsApp y asegurá tu lugar antes de que se llenen.</div>
+
+        <div class="spots-bar-wrap">
+          <div class="spots-label">
+            <span>Lugares tomados</span>
+            <span>7 / 20</span>
+          </div>
+          <div class="spots-bar">
+            <div class="spots-fill" id="spotsFill"></div>
+          </div>
+        </div>
+
+        <div class="spots-count">13</div>
+        <div class="spots-sub">lugares restantes</div>
+
+        <a
+          href="https://wa.me/5492226487900?text=Hola!%20Quiero%20ser%20Fundador%20de%20BigBite%20Cookies%20%F0%9F%8D%AA"
+          target="_blank"
+          class="wa-btn"
+        >
+          <span class="wa-icon">💬</span>
+          Quiero ser Fundador
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <span class="section-tag reveal">Dónde encontrarnos</span>
+    <h2 class="section-title reveal">Contacto</h2>
+
+    <div class="contact-layout">
+      <div class="contact-info reveal">
+        <div class="contact-block">
+          <span class="contact-block-label">Zona de entrega</span>
+          <div class="contact-block-val">Cañuelas y alrededores.<br>Para zonas más alejadas, consultanos.</div>
+        </div>
+
+        <div class="contact-block">
+          <span class="contact-block-label">Cómo hacer un pedido</span>
+          <div class="schedule-grid">
+            <div class="schedule-cell">
+              <div class="schedule-day">Paso 1</div>
+              <div class="schedule-action">Escribinos por WhatsApp</div>
+            </div>
+            <div class="schedule-cell">
+              <div class="schedule-day">Paso 2</div>
+              <div class="schedule-action">Elegís sabores y cantidad</div>
+            </div>
+            <div class="schedule-cell">
+              <div class="schedule-day">Cierre de pedidos</div>
+              <div class="schedule-action accent">Jueves 20hs</div>
+            </div>
+            <div class="schedule-cell">
+              <div class="schedule-day">Entrega</div>
+              <div class="schedule-action accent">Sábados</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <span class="contact-block-label">Pagos</span>
+          <div class="contact-block-val">Mercado Pago · Transferencia bancaria.<br>Sin efectivo, sin complicaciones.</div>
+        </div>
+      </div>
+
+      <div class="contact-cta-box reveal">
+        <div class="contact-cta-title">¿Listo para tu primera mordida?</div>
+        <div class="contact-cta-sub">Escribinos por WhatsApp o seguinos en Instagram para no perderte ningún sabor nuevo ni la reapertura del grupo fundador.</div>
+        <a
+          href="https://wa.me/5492226487900?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20BigBite%20Cookies%20%F0%9F%8D%AA"
+          target="_blank"
+          class="wa-btn"
+        >
+          <span class="wa-icon">💬</span>
+          Escribirnos por WhatsApp
+        </a>
+        <a href="https://instagram.com/bigbitecookies" target="_blank" class="ig-btn">
+          ↗ Seguirnos en Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Big<span>Bite</span></div>
+    <div class="footer-copy">© 2025 BigBite Cookies · Cañuelas, Buenos Aires · Hecho con amor y mucha harina.</div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobile() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    setTimeout(() => {
+      const fill = document.getElementById('spotsFill');
+      if (fill) fill.style.width = '35%';
+    }, 800);
+  </script>
+</body>
+</html>
